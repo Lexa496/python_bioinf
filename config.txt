@@ -1,0 +1,3 @@
+buffer_size=1024
+mode=code
+file_path=input.txt
