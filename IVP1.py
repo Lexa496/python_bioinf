@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def solve_ode(start, end, h, max_calls, eps, fs, initial_conditions):
     t = start
     v = np.array(initial_conditions)
@@ -16,10 +17,10 @@ def solve_ode(start, end, h, max_calls, eps, fs, initial_conditions):
         k2 = fs(t + h, v + h * k1, kounter)
         v1 = v + (h / 2) * (k1 + k2)
 
-        k2 = fs(t + h/2, v + h/2 * k1, kounter)
+        k2 = fs(t + h / 2, v + h / 2 * k1, kounter)
         v2 = v + (h / 4) * (k1 + k2)
- 
-        v2 = heun_step(t + h/2, v2, h/2)
+
+        v2 = heun_step(t + h / 2, v2, h / 2)
 
         r = np.linalg.norm(v2 - v1) / 3
 
@@ -28,8 +29,11 @@ def solve_ode(start, end, h, max_calls, eps, fs, initial_conditions):
 
         elif r < eps / 64:
             h *= 2
-
+            
         if r < eps:
+            if t + h > end:
+                h = end - t
+
             t += h
             v = v1
             print(f"{t:13.6f}{h:13.6f}{r:13.5e}{kounter[0]:13d}", *[f"{x:12.6f}" for x in v])
@@ -42,7 +46,7 @@ N_x = int(input())
 eps = float(input())
 n = int(input())
 function_code = []
-for i in range(n+3):
+for i in range(n + 3):
     line = input()
     function_code.append(line)
 
